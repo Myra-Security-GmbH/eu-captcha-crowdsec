@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Check</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
+      padding: 2.5rem 2rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .card h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .widget-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .error {
+      margin-top: 1rem;
+      color: #c0392b;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .error.visible { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Security Check</h1>
+    <p>Please complete the challenge below to continue.</p>
+
+    <div class="widget-wrap">
+      <div
+        class="eu-captcha"
+        data-sitekey="{{.Sitekey}}"
+        data-theme="auto"
+        data-callback="onCaptchaComplete"
+      ></div>
+    </div>
+
+    <div id="error-msg" class="error">Verification failed. Please try again.</div>
+  </div>
+
+  <form id="captcha-form" method="POST" action="/__captcha__/verify" style="display:none">
+    <input type="hidden" name="token" id="captcha-token" />
+    <input type="hidden" name="redirect" value="{{.Redirect}}" />
+  </form>
+
+  <script src="https://eu-captcha.eu/js/api.js" async defer></script>
+  <script>
+    function onCaptchaComplete(token) {
+      document.getElementById('captcha-token').value = token;
+      document.getElementById('captcha-form').submit();
+    }
+  </script>
+</body>
+</html>

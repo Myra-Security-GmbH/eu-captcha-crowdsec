@@ -1,0 +1,45 @@
+# EU Captcha CrowdSec Bouncer — example configuration
+# Copy to config.yaml and fill in the values marked with <>.
+
+# Address to listen on.
+listen_addr: "0.0.0.0:8080"
+
+# Backend service to proxy to when a request is allowed.
+upstream_url: "http://localhost:3000"
+
+crowdsec:
+  # CrowdSec Local API base URL.
+  lapi_url: "http://localhost:8080"
+
+  # Bouncer API key — register with:
+  #   cscli bouncers add eu-captcha-bouncer
+  api_key: "<YOUR_CROWDSEC_API_KEY>"
+
+  # How often to poll LAPI for decision updates.
+  update_interval: "10s"
+
+eu_captcha:
+  # Your EU CAPTCHA sitekey (public).
+  sitekey: "<YOUR_SITEKEY>"
+
+  # Your EU CAPTCHA secret (keep private — used for server-side verification).
+  secret: "<YOUR_SECRET>"
+
+  # EU CAPTCHA verification endpoint (default shown).
+  # verify_url: "https://api.eu-captcha.eu/v1/verify"
+
+session:
+  # HMAC signing secret — generate with: openssl rand -hex 32
+  secret: "<YOUR_SESSION_SECRET>"
+
+  # Name of the session cookie.
+  # cookie_name: "__eucaptcha_pass"
+
+  # How long a verified session remains valid.
+  # ttl: "1h"
+
+# CIDR ranges of trusted reverse proxies whose X-Forwarded-For header is
+# accepted. Leave empty if the bouncer is the outermost proxy.
+# trusted_proxies:
+#   - "127.0.0.1/32"
+#   - "10.0.0.0/8"
