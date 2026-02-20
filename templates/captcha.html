@@ -78,7 +78,7 @@
     <input type="hidden" name="redirect" value="{{.Redirect}}" />
   </form>
 
-  <script src="https://eu-captcha.eu/js/api.js" async defer></script>
+  <script src="https://cdn.eu-captcha.eu/verify.js" async defer></script>
   <script>
     function onCaptchaComplete(token) {
       document.getElementById('captcha-token').value = token;
